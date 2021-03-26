@@ -26,6 +26,7 @@ namespace Web
             services.AddInfrastructure(Configuration);
 
             services.AddControllers();
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddApiVersioning();
 
             services.AddSwaggerGen(c =>
