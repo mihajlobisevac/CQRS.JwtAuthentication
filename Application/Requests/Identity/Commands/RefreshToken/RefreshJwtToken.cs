@@ -12,21 +12,20 @@ namespace Application.Requests.Identity.Commands.RefreshToken
 
         public class Handler : IRequestHandler<Query, AuthResult>
         {
-            private readonly IIdentityService _identityService;
+            private readonly IAuthService _authService;
 
-            public Handler(IIdentityService identityService)
+            public Handler(IAuthService authService)
             {
-                _identityService = identityService;
+                _authService = authService;
             }
 
             public async Task<AuthResult> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _identityService
-                    .ValidateAndCreateTokensAsync(request.TokenRequest);
+                var result = await _authService.ValidateAndCreateTokensAsync(request.TokenRequest);
 
                 if (result is null)
                 {
-                    return AuthResult.Failed(new[] { "Failed validating tokens." });
+                    return AuthResult.Failure(new[] { "Failed validating tokens." });
                 }
 
                 return result;

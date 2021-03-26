@@ -20,7 +20,9 @@ namespace Application.Requests.Identity.Commands.CreateUser
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (await _identityService.EmailNotAvailableAsync(request.User.Email))
+                var emailAvailable = await _identityService.EmailAvailableAsync(request.User.Email);
+
+                if (emailAvailable == false)
                 {
                     return Response.Fail("Email not available.");
                 }

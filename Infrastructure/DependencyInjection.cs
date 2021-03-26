@@ -6,7 +6,7 @@ using Application.Common.Interfaces;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Infrastructure.Identity.Models;
+using Infrastructure.Auth;
 using Infrastructure.Identity;
 using System;
 
@@ -54,6 +54,7 @@ namespace Infrastructure
                 identityOptions.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IIdentityService, IdentityService>();
 
             return services;

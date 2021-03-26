@@ -13,20 +13,25 @@ namespace Application.Requests.Identity.Commands.LoginUser
         public class Handler : IRequestHandler<Query, AuthResult>
         {
             private readonly IIdentityService _identityService;
+            private readonly IAuthService _authService;
 
-            public Handler(IIdentityService identityService)
+            public Handler(IIdentityService identityService, IAuthService authService)
             {
                 _identityService = identityService;
+                _authService = authService;
             }
 
             public async Task<AuthResult> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (await _identityService.EmailPasswordNotValidAsync(request.User.Email, request.User.Password))
+                var validCredentials = await _identityService
+                    .CheckCredentialsAsync(request.User.Email, request.User.Password);
+
+                if (validCredentials == false)
                 {
-                    return AuthResult.Failed(new[] { "Email and/or password are incorrect." });
+                    return AuthResult.Failure(new[] { "Invalid credentials." });
                 }
 
-                var tokenResult = await _identityService.GenerateJwtTokens(request.User.Email);
+                var tokenResult = await _authService.GenerateJwtTokens(request.User.Email);
 
                 return tokenResult;
             }

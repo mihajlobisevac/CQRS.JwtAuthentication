@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Infrastructure.Identity;
+using System;
 
-namespace Infrastructure.Identity.Models
+namespace Infrastructure.Auth
 {
     public class RefreshToken
     {

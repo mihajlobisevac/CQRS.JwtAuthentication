@@ -9,7 +9,7 @@ namespace Application.Common.Models
         public bool IsSuccessful { get; set; }
         public ICollection<string> Errors { get; set; }
 
-        public static AuthResult Successful(string jwtToken, string refreshToken)
+        public static AuthResult Success(string jwtToken, string refreshToken)
             => new()
             {
                 JwtToken = jwtToken,
@@ -18,7 +18,7 @@ namespace Application.Common.Models
                 Errors = null
             };
 
-        public static AuthResult Failed(string[] errors)
+        public static AuthResult Failure(string[] errors)
             => new()
             {
                 JwtToken = null,

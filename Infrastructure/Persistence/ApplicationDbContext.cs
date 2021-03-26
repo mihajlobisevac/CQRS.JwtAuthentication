@@ -1,6 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
-using Infrastructure.Identity.Models;
+using Infrastructure.Auth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
