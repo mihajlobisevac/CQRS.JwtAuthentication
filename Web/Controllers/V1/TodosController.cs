@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Web.Controllers.V1
 {
     public class TodosController : ApiControllerBase
     {

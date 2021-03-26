@@ -4,13 +4,14 @@ using Application.Requests.Identity.Commands.LoginUser;
 using Application.Requests.Identity.Commands.RefreshToken;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Web.Contracts;
 
-namespace Web.Controllers
+namespace Web.Controllers.V1
 {
     public class AuthController : ApiControllerBase
     {
         [HttpPost]
-        [Route("register")]
+        [Route(ApiRoutes.Auth.Register)]
         public async Task<IActionResult> Register([FromBody] CreateUserDto user)
         {
             var result = await Mediator.Send(new CreateUser.Query(user));
@@ -21,7 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route(ApiRoutes.Auth.Login)]
         public async Task<IActionResult> Login([FromBody] LoginUserDto user)
         {
             var result = await Mediator.Send(new LoginUser.Query(user));
@@ -32,7 +33,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [Route("refreshtoken")]
+        [Route(ApiRoutes.Auth.RefreshToken)]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequest)
         {
             var result = await Mediator.Send(new RefreshJwtToken.Query(tokenRequest));
