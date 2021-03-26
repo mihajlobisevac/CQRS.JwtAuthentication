@@ -5,7 +5,7 @@ using Application.Requests.Identity.Commands.RefreshToken;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Web.Controllers.V1
 {
     public class AuthController : ApiControllerBase
     {
