@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Application.Common.Extensions
 {
-    public static class CommonExtensions
+    public static class GeneralExtensions
     {
         public static string GenerateRandomString(int length)
         {

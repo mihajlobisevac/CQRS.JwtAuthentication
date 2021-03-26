@@ -37,7 +37,7 @@ namespace Infrastructure.Auth
 
             try
             {
-                var tokenInVerification = jwtTokenHandler.ValidateToken(
+                var tokenInValidationClaimsPrincipal = jwtTokenHandler.ValidateToken(
                     jwtToken,
                     paramsWithoutValidateLifetime,
                     out var validatedToken);
@@ -47,7 +47,7 @@ namespace Infrastructure.Auth
                     return null;
                 }
 
-                return tokenInVerification;
+                return tokenInValidationClaimsPrincipal;
             }
             catch
             {

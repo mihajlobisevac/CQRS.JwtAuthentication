@@ -1,4 +1,4 @@
-﻿namespace Application.Requests.Identity.Commands.CreateUser
+﻿namespace Application.Requests.Users.Commands.CreateUser
 {
     public class CreateUserDto
     {

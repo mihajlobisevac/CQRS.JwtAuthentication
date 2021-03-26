@@ -1,4 +1,4 @@
-﻿namespace Application.Requests.Identity.Commands.LoginUser
+﻿namespace Application.Requests.Users.Commands.LoginUser
 {
     public class LoginUserDto
     {

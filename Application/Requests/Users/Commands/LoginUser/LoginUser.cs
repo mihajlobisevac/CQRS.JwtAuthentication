@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Identity.Commands.LoginUser
+namespace Application.Requests.Users.Commands.LoginUser
 {
     public static class LoginUser
     {

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Models;
-using Application.Requests.Identity.Commands.RefreshToken;
+using Application.Requests.Users.Commands.RefreshToken;
 using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces

@@ -1,7 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.Requests.Identity.Commands.RefreshToken;
+using Application.Requests.Users.Commands.RefreshToken;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -70,7 +70,7 @@ namespace Infrastructure.Auth
                 UserId = user.Id,
                 AddedDate = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddMinutes(5), // should be 6+ months
-                Value = CommonExtensions.GenerateRandomString(35) + Guid.NewGuid().ToString()
+                Value = GeneralExtensions.GenerateRandomString(35) + Guid.NewGuid().ToString()
             };
 
             _context.RefreshTokens.Add(refreshToken);
@@ -94,7 +94,7 @@ namespace Infrastructure.Auth
                 jwtTokenClaimsPrincipal.Claims
                     .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
 
-            var expiryDate = CommonExtensions.UnixTimestampToDateTime(utcExpiryDate);
+            var expiryDate = GeneralExtensions.UnixTimestampToDateTime(utcExpiryDate);
 
             if (expiryDate > DateTime.UtcNow)
             {

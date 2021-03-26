@@ -1,4 +1,4 @@
-﻿namespace Application.Requests.Identity.Commands.RefreshToken
+﻿namespace Application.Requests.Users.Commands.RefreshToken
 {
     public class TokenRequestDto
     {
