@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -8,9 +9,9 @@ namespace Infrastructure.Auth
 {
     public static class AuthExtensions
     {
-        public static Claim[] GenerateClaims(this ApplicationUser user)
+        public static List<Claim> GenerateClaims(this ApplicationUser user, IList<string> roles)
         {
-            return new Claim[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -18,6 +19,13 @@ namespace Infrastructure.Auth
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            return claims;
         }
 
         public static ClaimsPrincipal GetClaimsPrincipal(this string jwtToken, TokenValidationParameters tokenParams)

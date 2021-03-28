@@ -4,9 +4,9 @@
     {
         public static class Policies
         {
-            public const string Admin = "AdminPolicy";
-            public const string Editor = "EditorPolicy";
-            public const string User = "UserPolicy";
+            public const string Admin = "RequireAdminRole";
+            public const string Editor = "RequireEditorRole";
+            public const string User = "RequireUserRole";
         }
 
         public static class Roles

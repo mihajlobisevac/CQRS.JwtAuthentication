@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Common.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Web.Contracts;
 
 namespace Web.Controllers.V1
 {
+    [Authorize(Policy = AuthConstants.Policies.Admin)]
     public class RolesController : ApiControllerBase
     {
         private readonly RoleManager<IdentityRole> _roleManager;

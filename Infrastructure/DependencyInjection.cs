@@ -10,6 +10,7 @@ using Infrastructure.Auth;
 using Infrastructure.Identity;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Application.Common.Contracts;
 
 namespace Infrastructure
 {
@@ -53,8 +54,11 @@ namespace Infrastructure
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireEditorRole", policy => policy.RequireRole("Editor"));
+                options.AddPolicy(AuthConstants.Policies.Admin, policy => 
+                    policy.RequireRole(AuthConstants.Roles.Admin));
+
+                options.AddPolicy(AuthConstants.Policies.Editor, policy => 
+                    policy.RequireRole(AuthConstants.Roles.Editor));
             });
 
             services.AddDefaultIdentity<ApplicationUser>(identityOptions =>

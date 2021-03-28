@@ -14,7 +14,7 @@
 
         public static class Users
         {
-            public const string AddToRoleByName = "addtorole/{email}/{roleName}";
+            public const string AddToRoleByName = "{email}/addtorole/{roleName}";
         }
     }
 }
