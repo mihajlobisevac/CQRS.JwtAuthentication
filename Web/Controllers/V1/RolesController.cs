@@ -25,7 +25,7 @@ namespace Web.Controllers.V1
         }
 
         [HttpGet]
-        [Route(ApiRoutes.Roles.GetByName)]
+        [Route(ApiRoutes.GetByName)]
         public async Task<IActionResult> GetByName(string name)
         {
             var result = await _roleManager.FindByNameAsync(name);

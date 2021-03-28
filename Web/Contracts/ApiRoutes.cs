@@ -2,6 +2,9 @@
 {
     public static class ApiRoutes
     {
+        public const string GetByName = "{name}";
+        public const string GetById = "{id}";
+
         public static class Auth
         {
             public const string Register = "register";
@@ -9,14 +12,9 @@
             public const string RefreshToken = "refreshtoken";
         }
 
-        public static class Roles
+        public static class Users
         {
-            public const string GetByName = "{name}";
-        }
-
-        public static class Todos
-        {
-            public const string GetById = "{id}";
+            public const string AddToRoleByName = "addtorole/{email}/{roleName}";
         }
     }
 }
