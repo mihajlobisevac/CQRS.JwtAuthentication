@@ -22,16 +22,19 @@ namespace Infrastructure.Auth
         private readonly JwtConfig _jwtConfig;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenValidationParameters _tokenValidationParams;
 
         public AuthService(
             ApplicationDbContext context,
             IOptionsMonitor<JwtConfig> optionsMonitor,
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             TokenValidationParameters tokenValidationParams)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtConfig = optionsMonitor.CurrentValue;
             _tokenValidationParams = tokenValidationParams;
         }
@@ -39,7 +42,17 @@ namespace Infrastructure.Auth
         public async Task<AuthResult> GenerateJwtTokens(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var claimsIdentity = new ClaimsIdentity(user.GenerateClaims());
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var claimsIdentity = new ClaimsIdentity(
+                new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                });
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -48,7 +61,7 @@ namespace Infrastructure.Auth
             {
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
-                Expires = DateTime.UtcNow.AddSeconds(50) // should be 5-10 mins
+                Expires = DateTime.UtcNow.AddSeconds(500) // should be 5-10 mins
             };
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -69,7 +82,7 @@ namespace Infrastructure.Auth
                 IsRevoked = false,
                 UserId = user.Id,
                 AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMinutes(5), // should be 6+ months
+                ExpiryDate = DateTime.UtcNow.AddMonths(5), // should be 6+ months
                 Value = GeneralExtensions.GenerateRandomString(35) + Guid.NewGuid().ToString()
             };
 

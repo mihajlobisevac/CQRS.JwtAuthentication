@@ -9,9 +9,14 @@
             public const string RefreshToken = "refreshtoken";
         }
 
+        public static class Roles
+        {
+            public const string GetByName = "{name}";
+        }
+
         public static class Todos
         {
-            public const string CreateById = "{id}";
+            public const string GetById = "{id}";
         }
     }
 }

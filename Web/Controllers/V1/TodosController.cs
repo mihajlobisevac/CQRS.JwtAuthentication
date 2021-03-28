@@ -22,8 +22,9 @@ namespace Web.Controllers.V1
                 : Ok(result);
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet]
-        [Route(ApiRoutes.Todos.CreateById)]
+        [Route(ApiRoutes.Todos.GetById)]
         public async Task<IActionResult> GetTodo(int id)
         {
             var result = await Mediator.Send(new GetTodo.Query(id));
