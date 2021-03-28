@@ -2,8 +2,8 @@
 {
     public static class ApiRoutes
     {
-        public const string GetByName = "{name}";
-        public const string GetById = "{id}";
+        public const string GetByName = "by-name/{name}";
+        public const string GetById = "by-id/{id}";
 
         public static class Auth
         {
