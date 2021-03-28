@@ -8,5 +8,10 @@
             public const string Login = "login";
             public const string RefreshToken = "refreshtoken";
         }
+
+        public static class Todos
+        {
+            public const string CreateById = "{id}";
+        }
     }
 }

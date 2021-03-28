@@ -47,22 +47,18 @@ namespace Application.Requests.Users.Commands.CreateUser
             public bool IsSuccessful { get; private set; }
 
             public static Response Success(string description)
-            {
-                return new Response 
+                => new()
                 {
                     Description = description,
                     IsSuccessful = true
                 };
-            }
 
             public static Response Fail(string description)
-            {
-                return new Response
+                => new()
                 {
                     Description = description,
                     IsSuccessful = false
                 };
-            }
         }
     }
 }
