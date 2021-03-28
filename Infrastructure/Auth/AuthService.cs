@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -50,7 +49,7 @@ namespace Infrastructure.Auth
             {
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
-                Expires = DateTime.UtcNow.AddSeconds(500) // should be 5-10 mins
+                Expires = DateTime.UtcNow.AddSeconds(1200) // should be 5-10 mins
             };
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();

@@ -20,5 +20,6 @@ namespace Application.Common.Interfaces
         /// <param name="password"></param>
         /// <returns>Returns true if the credentials are valid, otherwise false.</returns>
         Task<bool> CheckCredentialsAsync(string email, string password);
+        Task<Result> AddToRoleAsync(string email, string roleName);
     }
 }

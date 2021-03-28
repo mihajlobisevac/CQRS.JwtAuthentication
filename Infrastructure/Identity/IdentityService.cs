@@ -8,10 +8,12 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public IdentityService(UserManager<ApplicationUser> userManager)
+        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<Result> CreateUserAsync(string username, string email, string password)
@@ -39,6 +41,23 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByEmailAsync(email);
             return await _userManager.CheckPasswordAsync(user, password);
+        }
+
+        public async Task<Result> AddToRoleAsync(string email, string roleName)
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (roleExists == false) return Result.Failure(new[] { $"Role with name '{roleName}' not found." });
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null) return Result.Failure(new[] { $"User with email '{email}' not found." });
+
+            var isInRole = await _userManager.IsInRoleAsync(user, roleName);
+            if (isInRole == true) return Result.Failure(new[] { $"User '{email}' is already assigned to role '{roleName}'." });
+
+            var roleResult = await _userManager.AddToRoleAsync(user, roleName);
+            if (roleResult.Succeeded) return Result.Success();
+
+            return Result.Failure(new[] { $"Unable to assign role '{roleName}' to user '{email}'." });
         }
     }
 }

@@ -29,10 +29,8 @@ namespace Web
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddApiVersioning();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" }));
+            services.ConfigureSwaggerGen(options => options.CustomSchemaIds(x => x.FullName));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
