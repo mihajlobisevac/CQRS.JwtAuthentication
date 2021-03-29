@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Users.Commands.RefreshToken
+namespace Application.V1.Users.Commands.RefreshToken
 {
     public static class RefreshJwtToken
     {

@@ -3,7 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Users.Commands.CreateUser
+namespace Application.V1.Users.Commands.CreateUser
 {
     public static class CreateUser
     {

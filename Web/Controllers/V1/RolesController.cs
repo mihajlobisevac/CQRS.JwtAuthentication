@@ -1,6 +1,6 @@
 ﻿using Application.Common.Contracts;
-using Application.Requests.Roles.Commands.CreateRole;
-using Application.Requests.Roles.Queries.GetRole;
+using Application.V1.Roles.Commands.CreateRole;
+using Application.V1.Roles.Queries.GetRole;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

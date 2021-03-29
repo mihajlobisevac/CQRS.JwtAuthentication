@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Todos.Queries.GetTodos
+namespace Application.V1.Todos.Queries.GetTodos
 {
     public static class GetTodos
     {

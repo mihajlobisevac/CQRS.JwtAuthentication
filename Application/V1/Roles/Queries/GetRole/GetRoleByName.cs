@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Roles.Queries.GetRole
+namespace Application.V1.Roles.Queries.GetRole
 {
     public static class GetRoleByName
     {

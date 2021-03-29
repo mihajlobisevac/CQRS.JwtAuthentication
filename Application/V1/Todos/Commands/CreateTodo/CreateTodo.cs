@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Todos.Commands.CreateTodo
+namespace Application.V1.Todos.Commands.CreateTodo
 {
     public static class CreateTodo
     {

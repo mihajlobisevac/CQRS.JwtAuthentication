@@ -1,6 +1,6 @@
-﻿using Application.Requests.Todos.Commands.CreateTodo;
-using Application.Requests.Todos.Queries.GetTodo;
-using Application.Requests.Todos.Queries.GetTodos;
+﻿using Application.V1.Todos.Commands.CreateTodo;
+using Application.V1.Todos.Queries.GetTodo;
+using Application.V1.Todos.Queries.GetTodos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

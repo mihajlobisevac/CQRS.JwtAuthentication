@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Roles.Commands.CreateRole
+namespace Application.V1.Roles.Commands.CreateRole
 {
     public static class CreateRole
     {

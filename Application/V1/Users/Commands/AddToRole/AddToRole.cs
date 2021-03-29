@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Users.Commands.AddToRole
+namespace Application.V1.Users.Commands.AddToRole
 {
     public static class AddToRole
     {

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Contracts;
-using Application.Requests.Users.Commands.AddToRole;
+using Application.V1.Users.Commands.AddToRole;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

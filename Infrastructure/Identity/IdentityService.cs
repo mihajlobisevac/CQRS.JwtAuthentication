@@ -72,7 +72,7 @@ namespace Infrastructure.Identity
                 return Result.Failure(errors);
             }
 
-            return RoleResult.Success(role);
+            return IdentityRoleResult.Success(role);
         }
 
         public async Task<Result> FindRoleByNameAsync(string roleName)
@@ -81,7 +81,7 @@ namespace Infrastructure.Identity
 
             if (role is null) return Result.Failure(new[] { $"Unable to find role '{roleName}'" });
 
-            return RoleResult.Success(role);
+            return IdentityRoleResult.Success(role);
         }
     }
 }

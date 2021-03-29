@@ -1,7 +1,7 @@
 ﻿using Application.Common.Models;
-using Application.Requests.Users.Commands.CreateUser;
-using Application.Requests.Users.Commands.LoginUser;
-using Application.Requests.Users.Commands.RefreshToken;
+using Application.V1.Users.Commands.CreateUser;
+using Application.V1.Users.Commands.LoginUser;
+using Application.V1.Users.Commands.RefreshToken;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Web.Contracts;
