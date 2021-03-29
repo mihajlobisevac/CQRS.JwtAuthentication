@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -58,6 +59,29 @@ namespace Infrastructure.Identity
             if (roleResult.Succeeded) return Result.Success();
 
             return Result.Failure(new[] { $"Unable to assign role '{roleName}' to user '{email}'." });
+        }
+
+        public async Task<Result> CreateRoleAsync(string roleName)
+        {
+            var role = new IdentityRole(roleName);
+            var result = await _roleManager.CreateAsync(role);
+
+            if (result.Succeeded == false)
+            {
+                var errors = result.Errors.Select(x => x.Description).ToArray();
+                return Result.Failure(errors);
+            }
+
+            return IdentityRoleResult.Success(role);
+        }
+
+        public async Task<Result> FindRoleByNameAsync(string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+
+            if (role is null) return Result.Failure(new[] { $"Unable to find role '{roleName}'" });
+
+            return IdentityRoleResult.Success(role);
         }
     }
 }

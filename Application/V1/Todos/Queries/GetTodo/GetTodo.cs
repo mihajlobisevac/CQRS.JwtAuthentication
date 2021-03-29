@@ -6,7 +6,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Todos.Queries.GetTodo
+namespace Application.V1.Todos.Queries.GetTodo
 {
     public static class GetTodo
     {

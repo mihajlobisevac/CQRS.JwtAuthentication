@@ -4,13 +4,17 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Users.Commands.LoginUser
+namespace Application.V1.Users.Commands.LoginUser
 {
     public static class LoginUser
     {
-        public record Query(LoginUserDto User) : IRequest<AuthResult>;
+        public record Query() : IRequest<Result>
+        {
+            public string Email { get; init; }
+            public string Password { get; init; }
+        }
 
-        public class Handler : IRequestHandler<Query, AuthResult>
+        public class Handler : IRequestHandler<Query, Result>
         {
             private readonly IIdentityService _identityService;
             private readonly IAuthService _authService;
@@ -21,17 +25,14 @@ namespace Application.Requests.Users.Commands.LoginUser
                 _authService = authService;
             }
 
-            public async Task<AuthResult> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
                 var validCredentials = await _identityService
-                    .CheckCredentialsAsync(request.User.Email, request.User.Password);
+                    .CheckCredentialsAsync(request.Email, request.Password);
 
-                if (validCredentials == false)
-                {
-                    return AuthResult.Failure(new[] { "Invalid credentials." });
-                }
+                if (validCredentials == false) return Result.Failure(new[] { "Invalid credentials." });
 
-                var tokenResult = await _authService.GenerateJwtTokens(request.User.Email);
+                var tokenResult = await _authService.GenerateJwtTokens(request.Email);
 
                 return tokenResult;
             }

@@ -4,11 +4,11 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Requests.Users.Commands.AddToRole
+namespace Application.V1.Roles.Commands.CreateRole
 {
-    public static class AddToRole
+    public static class CreateRole
     {
-        public record Command(string Email, string RoleName) : IRequest<Result>;
+        public record Command(string Name) : IRequest<Result>;
 
         public class Handler : IRequestHandler<Command, Result>
         {
@@ -21,7 +21,7 @@ namespace Application.Requests.Users.Commands.AddToRole
 
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                return await _identityService.AddToRoleAsync(request.Email, request.RoleName);
+                return await _identityService.CreateRoleAsync(request.Name);
             }
         }
     }
