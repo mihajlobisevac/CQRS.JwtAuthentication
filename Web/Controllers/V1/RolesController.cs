@@ -15,7 +15,7 @@ namespace Web.Controllers.V1
         [Route(ApiRoutes.GetByName)]
         public async Task<IActionResult> GetByName(string name)
         {
-            var result = await Mediator.Send(new GetRoleByName.Query(name));
+            GetRoleByName.Response result = await Mediator.Send(new GetRoleByName.Query(name));
 
             return result is null
                 ? BadRequest()
@@ -25,7 +25,7 @@ namespace Web.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> Create(CreateRole.Command command)
         {
-            var result = await Mediator.Send(command);
+            string result = await Mediator.Send(command);
 
             return result is null
                 ? BadRequest()

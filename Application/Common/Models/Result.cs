@@ -6,15 +6,15 @@ namespace Application.Common.Models
 {
     public class Result
     {
-        internal Result(bool succeeded, IEnumerable<string> errors)
+        private Result(bool succeeded, IEnumerable<string> errors)
         {
             Succeeded = succeeded;
             Errors = errors.ToArray();
         }
 
-        public bool Succeeded { get; set; }
+        public bool Succeeded { get; private set; }
 
-        public string[] Errors { get; set; }
+        public string[] Errors { get; private set; }
 
         public static Result Success()
         {
