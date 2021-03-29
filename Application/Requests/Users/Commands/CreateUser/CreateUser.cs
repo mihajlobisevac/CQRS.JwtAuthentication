@@ -7,7 +7,12 @@ namespace Application.Requests.Users.Commands.CreateUser
 {
     public static class CreateUser
     {
-        public record Query(CreateUserDto User) : IRequest<Response>;
+        public record Query : IRequest<Response>
+        {
+            public string Username { get; init; }
+            public string Email { get; init; }
+            public string Password { get; init; }
+        }
 
         public class Handler : IRequestHandler<Query, Response>
         {
@@ -20,7 +25,7 @@ namespace Application.Requests.Users.Commands.CreateUser
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var emailAvailable = await _identityService.EmailAvailableAsync(request.User.Email);
+                var emailAvailable = await _identityService.EmailAvailableAsync(request.Email);
 
                 if (emailAvailable == false)
                 {
@@ -28,13 +33,13 @@ namespace Application.Requests.Users.Commands.CreateUser
                 }
 
                 var result = await _identityService.CreateUserAsync(
-                    request.User.Username,
-                    request.User.Email,
-                    request.User.Password);
+                    request.Username,
+                    request.Email,
+                    request.Password);
 
                 if (result.IsSuccessful)
                 {
-                    return Response.Success($"Your account has been successfully created, {request.User.Username}.");
+                    return Response.Success($"Your account has been successfully created, {request.Username}.");
                 }
 
                 return Response.Fail("Unable to create account.");

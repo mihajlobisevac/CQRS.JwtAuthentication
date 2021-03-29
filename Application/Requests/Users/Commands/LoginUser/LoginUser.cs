@@ -8,7 +8,11 @@ namespace Application.Requests.Users.Commands.LoginUser
 {
     public static class LoginUser
     {
-        public record Query(LoginUserDto User) : IRequest<Result>;
+        public record Query() : IRequest<Result>
+        {
+            public string Email { get; init; }
+            public string Password { get; init; }
+        }
 
         public class Handler : IRequestHandler<Query, Result>
         {
@@ -24,14 +28,11 @@ namespace Application.Requests.Users.Commands.LoginUser
             public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
                 var validCredentials = await _identityService
-                    .CheckCredentialsAsync(request.User.Email, request.User.Password);
+                    .CheckCredentialsAsync(request.Email, request.Password);
 
-                if (validCredentials == false)
-                {
-                    return Result.Failure(new[] { "Invalid credentials." });
-                }
+                if (validCredentials == false) return Result.Failure(new[] { "Invalid credentials." });
 
-                var tokenResult = await _authService.GenerateJwtTokens(request.User.Email);
+                var tokenResult = await _authService.GenerateJwtTokens(request.Email);
 
                 return tokenResult;
             }

@@ -12,9 +12,9 @@ namespace Web.Controllers.V1
     {
         [HttpPost]
         [Route(ApiRoutes.Auth.Register)]
-        public async Task<IActionResult> Register([FromBody] CreateUserDto user)
+        public async Task<IActionResult> Register([FromBody] CreateUser.Query user)
         {
-            var result = await Mediator.Send(new CreateUser.Query(user));
+            var result = await Mediator.Send(user);
 
             return result.IsSuccessful 
                 ? Ok(result) 
@@ -23,9 +23,9 @@ namespace Web.Controllers.V1
 
         [HttpPost]
         [Route(ApiRoutes.Auth.Login)]
-        public async Task<IActionResult> Login([FromBody] LoginUserDto user)
+        public async Task<IActionResult> Login([FromBody] LoginUser.Query user)
         {
-            var result = await Mediator.Send(new LoginUser.Query(user));
+            var result = await Mediator.Send(user);
 
             return result.IsSuccessful
                 ? Ok(result)
@@ -34,14 +34,9 @@ namespace Web.Controllers.V1
 
         [HttpPost]
         [Route(ApiRoutes.Auth.RefreshToken)]
-        public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequest)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshJwtToken.Query tokenRequest)
         {
-            var result = await Mediator.Send(new RefreshJwtToken.Query(tokenRequest));
-
-            if (result is null)
-            {
-                return BadRequest(Result.Failure(new[] { "Invalid tokens." }));
-            }
+            var result = await Mediator.Send(tokenRequest);
 
             return result.IsSuccessful
                 ? Ok(result)

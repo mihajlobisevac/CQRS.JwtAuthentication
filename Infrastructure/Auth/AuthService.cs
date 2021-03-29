@@ -1,7 +1,6 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.Requests.Users.Commands.RefreshToken;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -80,10 +79,10 @@ namespace Infrastructure.Auth
             return refreshToken.Value;
         }
 
-        public async Task<Result> ValidateAndCreateTokensAsync(TokenRequestDto tokenRequest)
+        public async Task<Result> ValidateAndCreateTokensAsync(string jwtToken, string refreshToken)
         {
             // Validation 1: validate token
-            var jwtTokenClaimsPrincipal = tokenRequest.JwtToken.GetClaimsPrincipal(_tokenValidationParams);
+            var jwtTokenClaimsPrincipal = jwtToken.GetClaimsPrincipal(_tokenValidationParams);
 
             if (jwtTokenClaimsPrincipal is null)
             {
@@ -104,7 +103,7 @@ namespace Infrastructure.Auth
 
             // Validation 3: validate existence of the refresh token
             var storedToken = await _context.RefreshTokens
-                .FirstOrDefaultAsync(x => x.Value == tokenRequest.RefreshToken);
+                .FirstOrDefaultAsync(x => x.Value == refreshToken);
 
             if (storedToken is null)
             {

@@ -8,7 +8,11 @@ namespace Application.Requests.Users.Commands.RefreshToken
 {
     public static class RefreshJwtToken
     {
-        public record Query(TokenRequestDto TokenRequest) : IRequest<Result>;
+        public record Query() : IRequest<Result>
+        {
+            public string JwtToken { get; init; }
+            public string RefreshToken { get; init; }
+        }
 
         public class Handler : IRequestHandler<Query, Result>
         {
@@ -21,12 +25,11 @@ namespace Application.Requests.Users.Commands.RefreshToken
 
             public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _authService.ValidateAndCreateTokensAsync(request.TokenRequest);
+                var result = await _authService.ValidateAndCreateTokensAsync(
+                    request.JwtToken, 
+                    request.RefreshToken);
 
-                if (result is null)
-                {
-                    return Result.Failure(new[] { "Failed validating tokens." });
-                }
+                if (result is null) return Result.Failure(new[] { "Failed validating tokens." });
 
                 return result;
             }
