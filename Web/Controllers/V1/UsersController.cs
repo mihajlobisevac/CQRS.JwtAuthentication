@@ -16,7 +16,7 @@ namespace Web.Controllers.V1
         {
             var result = await Mediator.Send(command);
 
-            return result.Succeeded == true
+            return result.IsSuccessful == true
                 ? Ok(result)
                 : BadRequest(result);
         }

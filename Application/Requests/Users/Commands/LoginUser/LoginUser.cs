@@ -8,9 +8,9 @@ namespace Application.Requests.Users.Commands.LoginUser
 {
     public static class LoginUser
     {
-        public record Query(LoginUserDto User) : IRequest<AuthResult>;
+        public record Query(LoginUserDto User) : IRequest<Result>;
 
-        public class Handler : IRequestHandler<Query, AuthResult>
+        public class Handler : IRequestHandler<Query, Result>
         {
             private readonly IIdentityService _identityService;
             private readonly IAuthService _authService;
@@ -21,14 +21,14 @@ namespace Application.Requests.Users.Commands.LoginUser
                 _authService = authService;
             }
 
-            public async Task<AuthResult> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
                 var validCredentials = await _identityService
                     .CheckCredentialsAsync(request.User.Email, request.User.Password);
 
                 if (validCredentials == false)
                 {
-                    return AuthResult.Failure(new[] { "Invalid credentials." });
+                    return Result.Failure(new[] { "Invalid credentials." });
                 }
 
                 var tokenResult = await _authService.GenerateJwtTokens(request.User.Email);

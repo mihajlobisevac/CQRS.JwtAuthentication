@@ -1,6 +1,4 @@
 ﻿using Application.Common.Models;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces
@@ -28,5 +26,7 @@ namespace Application.Common.Interfaces
         /// <param name="roleName"></param>
         /// <returns>A Result object which indicates whether the action has been performed successfully.</returns>
         Task<Result> AddToRoleAsync(string email, string roleName);
+
+
     }
 }

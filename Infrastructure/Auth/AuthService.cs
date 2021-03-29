@@ -36,7 +36,7 @@ namespace Infrastructure.Auth
             _tokenValidationParams = tokenValidationParams;
         }
 
-        public async Task<AuthResult> GenerateJwtTokens(string email)
+        public async Task<Result> GenerateJwtTokens(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(user);
@@ -80,14 +80,14 @@ namespace Infrastructure.Auth
             return refreshToken.Value;
         }
 
-        public async Task<AuthResult> ValidateAndCreateTokensAsync(TokenRequestDto tokenRequest)
+        public async Task<Result> ValidateAndCreateTokensAsync(TokenRequestDto tokenRequest)
         {
             // Validation 1: validate token
             var jwtTokenClaimsPrincipal = tokenRequest.JwtToken.GetClaimsPrincipal(_tokenValidationParams);
 
             if (jwtTokenClaimsPrincipal is null)
             {
-                return AuthResult.Failure(new[] { "Invalid token." });
+                return Result.Failure(new[] { "Invalid token." });
             }
 
             // Validation 2: validate expiry date
@@ -99,7 +99,7 @@ namespace Infrastructure.Auth
 
             if (expiryDate > DateTime.UtcNow)
             {
-                return AuthResult.Failure(new[] { "Token has not expired yet." });
+                return Result.Failure(new[] { "Token has not expired yet." });
             }
 
             // Validation 3: validate existence of the refresh token
@@ -108,19 +108,19 @@ namespace Infrastructure.Auth
 
             if (storedToken is null)
             {
-                return AuthResult.Failure(new[] { "Refresh token does not exist." });
+                return Result.Failure(new[] { "Refresh token does not exist." });
             }
 
             // Validation 4: validate if used
             if (storedToken.IsUsed)
             {
-                return AuthResult.Failure(new[] { "Refresh token has been used." });
+                return Result.Failure(new[] { "Refresh token has been used." });
             }
 
             // Validation 5: validate if revoked
             if (storedToken.IsRevoked)
             {
-                return AuthResult.Failure(new[] { "Refresh token has been revoked." });
+                return Result.Failure(new[] { "Refresh token has been revoked." });
             }
 
             // Validation 6: validate the id
@@ -129,7 +129,7 @@ namespace Infrastructure.Auth
 
             if (storedToken.JwtId != jti)
             {
-                return AuthResult.Failure(new[] { "Tokens do not match." });
+                return Result.Failure(new[] { "Tokens do not match." });
             }
 
             // Update Used Refresh Token

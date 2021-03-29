@@ -6,7 +6,7 @@ namespace Application.Common.Interfaces
 {
     public interface IAuthService
     {
-        Task<AuthResult> GenerateJwtTokens(string email);
-        Task<AuthResult> ValidateAndCreateTokensAsync(TokenRequestDto tokenRequest);
+        Task<Result> GenerateJwtTokens(string email);
+        Task<Result> ValidateAndCreateTokensAsync(TokenRequestDto tokenRequest);
     }
 }

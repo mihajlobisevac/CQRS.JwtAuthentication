@@ -32,7 +32,7 @@ namespace Application.Requests.Users.Commands.CreateUser
                     request.User.Email,
                     request.User.Password);
 
-                if (result.Succeeded)
+                if (result.IsSuccessful)
                 {
                     return Response.Success($"Your account has been successfully created, {request.User.Username}.");
                 }

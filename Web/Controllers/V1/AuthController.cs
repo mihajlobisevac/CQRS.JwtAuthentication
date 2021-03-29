@@ -40,7 +40,7 @@ namespace Web.Controllers.V1
 
             if (result is null)
             {
-                return BadRequest(AuthResult.Failure(new[] { "Invalid tokens." }));
+                return BadRequest(Result.Failure(new[] { "Invalid tokens." }));
             }
 
             return result.IsSuccessful
