@@ -39,8 +39,9 @@ namespace Infrastructure.Auth
         public async Task<AuthResult> GenerateJwtTokens(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var claimsIdentity = new ClaimsIdentity(user.GenerateClaims());
+            var roles = await _userManager.GetRolesAsync(user);
 
+            var claimsIdentity = new ClaimsIdentity(user.GenerateClaims(roles));
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
@@ -48,7 +49,7 @@ namespace Infrastructure.Auth
             {
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
-                Expires = DateTime.UtcNow.AddSeconds(50) // should be 5-10 mins
+                Expires = DateTime.UtcNow.AddSeconds(1200) // should be 5-10 mins
             };
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -69,7 +70,7 @@ namespace Infrastructure.Auth
                 IsRevoked = false,
                 UserId = user.Id,
                 AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMinutes(5), // should be 6+ months
+                ExpiryDate = DateTime.UtcNow.AddMonths(5), // should be 6+ months
                 Value = GeneralExtensions.GenerateRandomString(35) + Guid.NewGuid().ToString()
             };
 

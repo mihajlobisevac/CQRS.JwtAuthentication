@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Infrastructure.Auth;
 using Infrastructure.Identity;
 using System;
+using Microsoft.AspNetCore.Identity;
+using Application.Common.Contracts;
 
 namespace Infrastructure
 {
@@ -50,8 +52,18 @@ namespace Infrastructure
                     jwtOptions.TokenValidationParameters = tokenParams;
                 });
 
-            services.AddDefaultIdentity<ApplicationUser>(identityOptions => 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthConstants.Policies.Admin, policy => 
+                    policy.RequireRole(AuthConstants.Roles.Admin));
+
+                options.AddPolicy(AuthConstants.Policies.Editor, policy => 
+                    policy.RequireRole(AuthConstants.Roles.Editor));
+            });
+
+            services.AddDefaultIdentity<ApplicationUser>(identityOptions =>
                 identityOptions.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IAuthService, AuthService>();
