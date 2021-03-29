@@ -1,5 +1,6 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using Application.Common.Interfaces;
+using Application.Common.Models;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,26 +8,20 @@ namespace Application.Requests.Roles.Commands.CreateRole
 {
     public static class CreateRole
     {
-        public record Command(string Name) : IRequest<string>;
+        public record Command(string Name) : IRequest<Result>;
 
-        public class Handler : IRequestHandler<Command, string>
+        public class Handler : IRequestHandler<Command, Result>
         {
-            private readonly RoleManager<IdentityRole> _roleManager;
+            private readonly IIdentityService _identityService;
 
-            public Handler(RoleManager<IdentityRole> roleManager)
+            public Handler(IIdentityService identityService)
             {
-                _roleManager = roleManager;
+                _identityService = identityService;
             }
 
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                var roleToAdd = new IdentityRole(request.Name);
-
-                var result = await _roleManager.CreateAsync(roleToAdd);
-
-                if (result.Succeeded == false) return null;
-
-                return roleToAdd.Id;
+                return await _identityService.CreateRoleAsync(request.Name);
             }
         }
     }

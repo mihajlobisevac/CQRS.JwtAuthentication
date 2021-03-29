@@ -25,11 +25,11 @@ namespace Web.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> Create(CreateRole.Command command)
         {
-            string result = await Mediator.Send(command);
+            var result = await Mediator.Send(command);
 
-            return result is null
-                ? BadRequest()
-                : Ok(result);
+            return result.IsSuccessful
+                ? Ok(result)
+                : BadRequest(result);
         }
     }
 }

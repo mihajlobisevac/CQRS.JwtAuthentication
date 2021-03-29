@@ -27,6 +27,6 @@ namespace Application.Common.Interfaces
         /// <returns>A Result object which indicates whether the action has been performed successfully.</returns>
         Task<Result> AddToRoleAsync(string email, string roleName);
 
-
+        Task<Result> CreateRoleAsync(string roleName);
     }
 }
