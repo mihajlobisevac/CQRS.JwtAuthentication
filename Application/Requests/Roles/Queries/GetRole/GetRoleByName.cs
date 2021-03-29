@@ -1,7 +1,6 @@
-﻿using Application.Common.Mappings;
-using AutoMapper;
+﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,33 +8,21 @@ namespace Application.Requests.Roles.Queries.GetRole
 {
     public static class GetRoleByName
     {
-        public record Query(string Name) : IRequest<Response>;
+        public record Query(string Name) : IRequest<Result>;
 
-        public class Handler : IRequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Result>
         {
-            private readonly RoleManager<IdentityRole> _roleManager;
-            private readonly IMapper _mapper;
+            private readonly IIdentityService _identityService;
 
-            public Handler(RoleManager<IdentityRole> roleManager, IMapper mapper)
+            public Handler(IIdentityService identityService)
             {
-                _roleManager = roleManager;
-                _mapper = mapper;
+                _identityService = identityService;
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
-                var role = await _roleManager.FindByNameAsync(request.Name);
-
-                if (role is null) return null;
-
-                return _mapper.Map<Response>(role);
+                return await _identityService.FindRoleByNameAsync(request.Name);
             }
-        }
-
-        public record Response : IMapFrom<IdentityRole>
-        {
-            public string Id { get; init; }
-            public string Name { get; init; }
         }
     }
 }

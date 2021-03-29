@@ -72,7 +72,16 @@ namespace Infrastructure.Identity
                 return Result.Failure(errors);
             }
 
-            return RoleResult.Success(role.Id);
+            return RoleResult.Success(role);
+        }
+
+        public async Task<Result> FindRoleByNameAsync(string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+
+            if (role is null) return Result.Failure(new[] { $"Unable to find role '{roleName}'" });
+
+            return RoleResult.Success(role);
         }
     }
 }

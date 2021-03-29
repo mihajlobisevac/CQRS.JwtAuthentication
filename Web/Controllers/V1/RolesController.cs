@@ -15,11 +15,11 @@ namespace Web.Controllers.V1
         [Route(ApiRoutes.GetByName)]
         public async Task<IActionResult> GetByName(string name)
         {
-            GetRoleByName.Response result = await Mediator.Send(new GetRoleByName.Query(name));
+            var result = await Mediator.Send(new GetRoleByName.Query(name));
 
-            return result is null
-                ? BadRequest()
-                : Ok(result);
+            return result.IsSuccessful
+                ? Ok(result)
+                : BadRequest(result);
         }
 
         [HttpPost]
